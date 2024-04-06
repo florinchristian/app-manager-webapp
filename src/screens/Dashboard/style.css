@@ -18,6 +18,8 @@
   align-items: center;
 }
 #dashboard-container #dashboard-content {
+  display: flex;
+  flex-direction: column;
   background-color: white;
   padding: 25px;
   width: 75%;
@@ -29,6 +31,26 @@
 #dashboard-container #dashboard-content #dashboard-footer {
   display: flex;
   justify-content: space-between;
+}
+#dashboard-container #dashboard-content #apps-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  overflow-y: auto;
+}
+#dashboard-container #dashboard-content #apps-container #add-app-card-container {
+  width: 100%;
+  background-color: rgba(30, 144, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  cursor: pointer;
+}
+#dashboard-container #dashboard-content #apps-container #add-app-card-container p {
+  padding: 0;
+  margin: 0;
+  color: dodgerblue;
 }
 
 /*# sourceMappingURL=style.css.map */

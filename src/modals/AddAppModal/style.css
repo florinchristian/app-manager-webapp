@@ -1,0 +1,14 @@
+#add-app-modal {
+  background-color: white;
+  display: flex;
+  width: 30%;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+#add-app-modal form .form-input {
+  display: flex;
+  flex-direction: column;
+}
+
+/*# sourceMappingURL=style.css.map */

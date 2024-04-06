@@ -1,0 +1,45 @@
+.app-item {
+  background-color: #e3e3e3;
+  margin: 10px 0 10px 0;
+
+  box-sizing: border-box;
+
+  padding: 10px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .details-container {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+
+    .base-app-details :first-child span {
+      font-weight: bold;
+    }
+  }
+
+  .endpoints-container {
+    .create-endpoint-container {
+      display: flex;
+      flex-direction: column;
+
+      align-items: flex-start;
+
+      button {
+        margin: 10px 0 10px 0;
+      }
+    }
+  }
+}

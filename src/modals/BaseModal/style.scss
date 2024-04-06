@@ -1,0 +1,15 @@
+.base-modal {
+  width: 100vw;
+  height: 100vh;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: rgba(black, .5);
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}

@@ -14,6 +14,10 @@
   align-items: center;
 
   #dashboard-content {
+    display: flex;
+
+    flex-direction: column;
+
     background-color: white;
 
     padding: 25px;
@@ -28,6 +32,35 @@
     #dashboard-footer {
       display: flex;
       justify-content: space-between;
+    }
+
+    #apps-container {
+      display: flex;
+      flex-grow: 1;
+
+      flex-direction: column;
+
+      overflow-y: auto;
+
+      #add-app-card-container {
+        width: 100%;
+        background-color: rgba(dodgerblue, .10);
+
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+
+        padding: 25px;
+
+        cursor: pointer;
+
+        p {
+          padding: 0;
+          margin: 0;
+          color: dodgerblue;
+        }
+      }
     }
   }
 }

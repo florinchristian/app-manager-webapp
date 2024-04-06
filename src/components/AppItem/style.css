@@ -1,0 +1,32 @@
+.app-item {
+  background-color: #e3e3e3;
+  margin: 10px 0 10px 0;
+  box-sizing: border-box;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.app-item p {
+  margin: 0;
+  padding: 0;
+}
+.app-item .details-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.app-item .details-container .base-app-details :first-child span {
+  font-weight: bold;
+}
+.app-item .endpoints-container .create-endpoint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.app-item .endpoints-container .create-endpoint-container button {
+  margin: 10px 0 10px 0;
+}
+
+/*# sourceMappingURL=style.css.map */
