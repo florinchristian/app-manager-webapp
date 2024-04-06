@@ -1,0 +1,16 @@
+.report-bug-modal {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  padding: 15px;
+}
+.report-bug-modal form {
+  display: flex;
+  flex-direction: column;
+}
+.report-bug-modal button {
+  margin-top: 15px;
+}
+
+/*# sourceMappingURL=style.css.map */

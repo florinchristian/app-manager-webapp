@@ -7,6 +7,8 @@ import EndpointMethod from "../../model/EndpointMethod";
 import AppAPI from "../../service/AppAPI";
 import EndpointItem from "../EndpointItem";
 import AccountService from "../../service/AccountService";
+import BaseModal from "../../modals/BaseModal";
+import ReportBugModal from "../../modals/ReportBugModal";
 
 type AppItemProps = {
     app: App;
@@ -18,6 +20,7 @@ type AppItemState = {
     loading: true;
     newEndpointMethod: string;
     newEndpoint: string;
+    isReportingBug: boolean;
 }
 
 type CardAction = {
@@ -31,7 +34,8 @@ class AppItem extends Component<AppItemProps, AppItemState> {
         endpoints: this.props.app.endpoints || [],
         loading: true,
         newEndpointMethod: 'GET',
-        newEndpoint: ''
+        newEndpoint: '',
+        isReportingBug: false,
     }
 
     UNIVERSAL_ACTIONS: CardAction[] = [
@@ -44,9 +48,7 @@ class AppItem extends Component<AppItemProps, AppItemState> {
     USER_ACTIONS: CardAction[] = [
         {
             name: 'Report Bug',
-            callback: () => {
-
-            }
+            callback: () => this.setState({isReportingBug: true})
         }
     ];
 
@@ -108,13 +110,18 @@ class AppItem extends Component<AppItemProps, AppItemState> {
             endpoints,
             isViewingEndpoints,
             newEndpointMethod,
-            newEndpoint
+            newEndpoint,
+            isReportingBug
         } = this.state;
 
         const noEndpointIsPresent = endpoints.length <= 0;
 
         return (
             <div className={'app-item'}>
+                <BaseModal visible={isReportingBug}>
+                    <ReportBugModal app={app} closeCallback={() => this.setState({isReportingBug: false})}/>
+                </BaseModal>
+
                 <div className={'details-container'}>
                     <div className={'base-app-details'}>
                         <p>Name: <span>{app.appName}</span></p>
