@@ -7,6 +7,7 @@ type EvaluationState = 'EVALUATING' | 'STABLE' | 'UNSTABLE' | 'DOWN';
 
 type EndpointItemState = {
     endpointStates: ('UP' | 'DOWN')[];
+    lastSentState: EvaluationState;
     evaluation: EvaluationState;
 }
 
@@ -19,6 +20,7 @@ type EndpointItemProps = {
 class EndpointItem extends Component<EndpointItemProps, EndpointItemState> {
     state: EndpointItemState = {
         evaluation: 'EVALUATING',
+        lastSentState: 'EVALUATING',
         endpointStates: []
     }
 
@@ -46,6 +48,14 @@ class EndpointItem extends Component<EndpointItemProps, EndpointItemState> {
 
         if (downCount === 10) {
             result = 'DOWN';
+        }
+
+        if (result !== this.state.lastSentState) {
+            this.props.onStatusUpdate(result);
+
+            this.setState({
+                lastSentState: result
+            });
         }
 
         return result;

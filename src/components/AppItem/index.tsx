@@ -98,7 +98,7 @@ class AppItem extends Component<AppItemProps, AppItemState> {
 
         this.setState({
             endpointStatus: newStatus
-        });
+        }, this.forceUpdate);
     }
 
     computeAppStatus = () => {
