@@ -2,6 +2,9 @@ import {Component} from "react";
 
 import "./style.css";
 import App from "../../model/App";
+import Bug from "../../model/Bug";
+import bug from "../../model/Bug";
+import BugsAPI from "../../service/BugsAPI";
 
 type ReportBugModalProps = {
     app: App;
@@ -17,6 +20,25 @@ class ReportBugModal extends Component<ReportBugModalProps, ReportBugModalState>
     state: ReportBugModalState = {
         bugTitle: '',
         bugDescription: ''
+    }
+
+    reportBug = async () => {
+        const {
+            bugTitle,
+            bugDescription
+        } = this.state;
+
+        const bug: Bug = {
+            title: bugTitle,
+            description: bugDescription
+        };
+
+        await BugsAPI.reportBug(this.props.app.id || '', bug);
+
+        this.setState({
+            bugDescription: '',
+            bugTitle: ''
+        }, this.props.closeCallback);
     }
 
     render = () => {
@@ -44,7 +66,7 @@ class ReportBugModal extends Component<ReportBugModalProps, ReportBugModalState>
                         onChange={e => this.setState({bugDescription: e.target.value})}
                     ></textarea>
 
-                    <button type={'button'}>Submit</button>
+                    <button onClick={this.reportBug} type={'button'}>Submit</button>
                 </form>
 
                 <button onClick={this.props.closeCallback} type={'button'}>Dismiss</button>

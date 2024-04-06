@@ -1,7 +1,8 @@
 type Bug = {
     id?: string;
+    title: string;
     description: string;
-    solved: boolean;
+    solved?: boolean;
 };
 
 export default Bug;
