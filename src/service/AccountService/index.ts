@@ -9,6 +9,10 @@ class AccountService {
         return auth.currentUser;
     }
 
+    static isDeveloper = () => {
+        return auth.currentUser !== undefined && auth.currentUser !== null;
+    }
+
     static loginWithBaseCredentials = async (email: string, password: string) => {
         console.log('login' + JSON.stringify({email, password}));
 

@@ -6,6 +6,7 @@ import Endpoint from "../../model/Endpoint";
 import EndpointMethod from "../../model/EndpointMethod";
 import AppAPI from "../../service/AppAPI";
 import EndpointItem from "../EndpointItem";
+import AccountService from "../../service/AccountService";
 
 type AppItemProps = {
     app: App;
@@ -40,8 +41,23 @@ class AppItem extends Component<AppItemProps, AppItemState> {
         }
     ];
 
+    USER_ACTIONS: CardAction[] = [
+        {
+            name: 'Report Bug',
+            callback: () => {
+
+            }
+        }
+    ];
+
     renderActions = () => {
-        return this.UNIVERSAL_ACTIONS.map(action => (
+        let finalActions = this.UNIVERSAL_ACTIONS;
+
+        if (!AccountService.isDeveloper()) {
+            finalActions = [...this.USER_ACTIONS, ...this.UNIVERSAL_ACTIONS];
+        }
+
+        return finalActions.map(action => (
             <button
                 type={'button'}
                 onClick={() => action.callback()}
@@ -112,30 +128,33 @@ class AppItem extends Component<AppItemProps, AppItemState> {
 
                 {isViewingEndpoints && (
                     <div className={'endpoints-container'}>
-                        <form className={'create-endpoint-container'}>
-                            <h3>Add new endpoint</h3>
+                        {AccountService.isDeveloper() && (
+                            <form className={'create-endpoint-container'}>
+                                <h3>Add new endpoint</h3>
 
-                            <label>Select method</label>
-                            <select
-                                className={'endpoint-method-selector'}
-                                value={newEndpointMethod}
-                                onChange={e => this.setState({newEndpointMethod: e.target.value})}
-                            >
-                                <option>GET</option>
-                                <option>POST</option>
-                                <option>PATCH</option>
-                            </select>
+                                <label>Select method</label>
+                                <select
+                                    className={'endpoint-method-selector'}
+                                    value={newEndpointMethod}
+                                    onChange={e => this.setState({newEndpointMethod: e.target.value})}
+                                >
+                                    <option>GET</option>
+                                    <option>POST</option>
+                                    <option>PATCH</option>
+                                </select>
 
-                            <label>Endpoint</label>
-                            <input
-                                className={'endpoint'}
-                                value={newEndpoint}
-                                onChange={e => this.setState({newEndpoint: e.target.value})}
-                                type={"text"}
-                            />
+                                <label>Endpoint</label>
+                                <input
+                                    className={'endpoint'}
+                                    value={newEndpoint}
+                                    onChange={e => this.setState({newEndpoint: e.target.value})}
+                                    type={"text"}
+                                />
 
-                            <button onClick={this.createEndpoint} type={'button'}>Create</button>
-                        </form>
+                                <button onClick={this.createEndpoint} type={'button'}>Create</button>
+                            </form>
+                        )}
+
                         {noEndpointIsPresent ? (
                             <p>There are no endpoints registered!</p>
                         ) : (
