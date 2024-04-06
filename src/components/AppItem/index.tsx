@@ -9,6 +9,7 @@ import EndpointItem from "../EndpointItem";
 import AccountService from "../../service/AccountService";
 import BaseModal from "../../modals/BaseModal";
 import ReportBugModal from "../../modals/ReportBugModal";
+import endpointItem from "../EndpointItem";
 
 type AppItemProps = {
     app: App;
@@ -21,7 +22,7 @@ type AppItemState = {
     newEndpointMethod: string;
     newEndpoint: string;
     isReportingBug: boolean;
-    endpointStatus: {[key: string]: ('STABLE' | 'UNSTABLE' | 'DOWN')}
+    endpointStatus: {[key: string]: ('EVALUATING' | 'STABLE' | 'UNSTABLE' | 'DOWN')}
 }
 
 type CardAction = {
@@ -61,7 +62,7 @@ class AppItem extends Component<AppItemProps, AppItemState> {
             finalActions = [...this.USER_ACTIONS, ...this.UNIVERSAL_ACTIONS];
         }
 
-        return finalActions.map(action => (
+        return finalActions.map((action, index) => (
             <button
                 type={'button'}
                 onClick={() => action.callback()}
@@ -91,15 +92,55 @@ class AppItem extends Component<AppItemProps, AppItemState> {
         }, this.forceUpdate);
     }
 
-    updateEndpointStatus = (endpointId: string, status: 'STABLE' | 'UNSTABLE' | 'DOWN') => {
+    updateEndpointStatus = (endpointId: string, status: 'EVALUATING' | 'STABLE' | 'UNSTABLE' | 'DOWN') => {
+        let newStatus = this.state.endpointStatus;
+        newStatus[endpointId] = status;
+
         this.setState({
-            endpointStatus: {...this.state.endpointStatus, endpointId: status}
+            endpointStatus: newStatus
         });
+    }
+
+    computeAppStatus = () => {
+        let endpointKeys = Object.keys(this.state.endpointStatus);
+
+        let stableCount = 0;
+        let downCount = 0;
+
+        for (let endpointId of endpointKeys) {
+            let endpointStatus = this.state.endpointStatus[endpointId];
+
+            if (endpointStatus === 'EVALUATING') {
+                return 'EVALUATING';
+            }
+
+            if (endpointStatus === 'STABLE') {
+                stableCount++;
+            }
+
+            if (endpointStatus === 'DOWN') {
+                downCount++;
+            }
+        }
+
+        if (stableCount === endpointKeys.length) {
+            return 'STABLE'
+        }
+
+        if (downCount === endpointKeys.length) {
+            return 'DOWN';
+        }
+
+        return 'UNSTABLE';
     }
 
     renderEndpoints = () => {
         return this.state.endpoints.map(endpoint => (
-            <EndpointItem app={this.props.app} endpoint={endpoint} />
+            <EndpointItem
+                key={endpoint.id}
+                onStatusUpdate={newStatus => this.updateEndpointStatus(endpoint.id || '', newStatus)}
+                app={this.props.app} endpoint={endpoint}
+            />
         ));
     }
 
@@ -126,7 +167,7 @@ class AppItem extends Component<AppItemProps, AppItemState> {
 
                 <div className={'details-container'}>
                     <div className={'base-app-details'}>
-                        <p>Name: <span>{app.appName}</span></p>
+                        <p>Name: <span>{app.appName}</span> • Status: {this.computeAppStatus()}</p>
                         <p>Host name: {app.hostName}</p>
                     </div>
 

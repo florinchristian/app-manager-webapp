@@ -13,6 +13,7 @@ type EndpointItemState = {
 type EndpointItemProps = {
     app: App;
     endpoint: Endpoint;
+    onStatusUpdate: (newStatus: EvaluationState) => void
 }
 
 class EndpointItem extends Component<EndpointItemProps, EndpointItemState> {

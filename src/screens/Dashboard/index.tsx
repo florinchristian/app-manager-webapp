@@ -48,7 +48,7 @@ class Dashboard extends Component<any, DashboardState> {
 
     renderApps = (): JSX.Element[] => {
         return this.state.apps.map(app => (
-            <AppItem app={app} />
+            <AppItem key={app.id} app={app} />
         ));
     };
 
