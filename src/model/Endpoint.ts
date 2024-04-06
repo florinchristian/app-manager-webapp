@@ -3,7 +3,7 @@ import EndpointMethod from "./EndpointMethod";
 type Endpoint = {
     id?: string;
     endpoint: string;
-    endpointMethod: EndpointMethod | string;
+    method: EndpointMethod | string;
 };
 
 export default Endpoint;

@@ -21,6 +21,7 @@ type AppItemState = {
     newEndpointMethod: string;
     newEndpoint: string;
     isReportingBug: boolean;
+    endpointStatus: {[key: string]: ('STABLE' | 'UNSTABLE' | 'DOWN')}
 }
 
 type CardAction = {
@@ -36,6 +37,7 @@ class AppItem extends Component<AppItemProps, AppItemState> {
         newEndpointMethod: 'GET',
         newEndpoint: '',
         isReportingBug: false,
+        endpointStatus: {}
     }
 
     UNIVERSAL_ACTIONS: CardAction[] = [
@@ -69,12 +71,6 @@ class AppItem extends Component<AppItemProps, AppItemState> {
         ));
     }
 
-    ENDPOINT_METHOD_MAPPING: {[key: string]: EndpointMethod} = {
-        'POST': EndpointMethod.POST,
-        'GET': EndpointMethod.GET,
-        'PATCH': EndpointMethod.PATCH
-    }
-
     createEndpoint = async () => {
         const {
             newEndpoint,
@@ -83,7 +79,7 @@ class AppItem extends Component<AppItemProps, AppItemState> {
 
         const endpoint: Endpoint = {
             endpoint: newEndpoint,
-            endpointMethod: newEndpointMethod
+            method: newEndpointMethod
         };
 
         const newApp = await AppAPI.createEndpoint(this.props.app.id || '', endpoint);
@@ -95,9 +91,15 @@ class AppItem extends Component<AppItemProps, AppItemState> {
         }, this.forceUpdate);
     }
 
+    updateEndpointStatus = (endpointId: string, status: 'STABLE' | 'UNSTABLE' | 'DOWN') => {
+        this.setState({
+            endpointStatus: {...this.state.endpointStatus, endpointId: status}
+        });
+    }
+
     renderEndpoints = () => {
         return this.state.endpoints.map(endpoint => (
-            <EndpointItem endpoint={endpoint} />
+            <EndpointItem app={this.props.app} endpoint={endpoint} />
         ));
     }
 
