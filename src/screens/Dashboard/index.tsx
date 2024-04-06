@@ -8,18 +8,25 @@ import AppItem from "../../components/AppItem";
 import BaseModal from "../../modals/BaseModal";
 import AddAppModal from "../../modals/AddAppModal";
 import AppAPI from "../../service/AppAPI";
+import Bug from "../../model/Bug";
+import BugsAPI from "../../service/BugsAPI";
+import BugsPanel from "../../components/BugsPanel";
 
 type DashboardState = {
     apps: App[];
+    bugs: Bug[];
     addAppModalVisible: boolean;
+    bugsPanelVisible: boolean;
     loading: boolean;
 }
 
 class Dashboard extends Component<any, DashboardState> {
     state: DashboardState = {
         apps: [],
+        bugs: [],
         addAppModalVisible: false,
-        loading: true
+        loading: true,
+        bugsPanelVisible: false
     }
 
     redirectToLogin = () => {
@@ -67,9 +74,16 @@ class Dashboard extends Component<any, DashboardState> {
         });
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         auth.onAuthStateChanged(() => this.forceUpdate());
-        this.fetchApps();
+
+        const results = await Promise.all([AppAPI.fetchAllApps(), BugsAPI.fetchBugs()]);
+
+        this.setState({
+            apps: results[0],
+            bugs: results[1],
+            loading: false
+        });
     };
 
     render = () => {
@@ -82,7 +96,9 @@ class Dashboard extends Component<any, DashboardState> {
 
         const {
             addAppModalVisible,
-            loading
+            bugs,
+            loading,
+            bugsPanelVisible
         } = this.state;
 
         return (
@@ -91,19 +107,34 @@ class Dashboard extends Component<any, DashboardState> {
                     <AddAppModal closeCallback={this.closeAddAppModal}/>
                 </BaseModal>
 
+                {AccountService.isDeveloper() && (
+                    <>
+                        <BugsPanel
+                            visible={bugsPanelVisible}
+                            bugs={bugs}
+                            updateBugs={(newBugs: Bug[]) => this.setState({bugs: newBugs})}
+                        />
+
+                        <div id={'bugs-toggle-button-container'}>
+                            <button onClick={() => this.setState({bugsPanelVisible: !bugsPanelVisible})} id={'bugs-toggle-button'}>Bugs ({bugs.length})</button>
+                        </div>
+                    </>
+                )}
+
+
                 <div id={'dashboard-content'}>
                     <div id={'dashboard-footer'}>
-                        <div>
-                            <h1>iTec Manager</h1>
+                    <div>
+                        <h1>iTec Manager</h1>
                         </div>
 
                         <div>
-                            {isSignedIn? (
+                            {isSignedIn ? (
                                 <>
                                     <p>{currentUser?.email}</p>
                                     <button onClick={this.signOut}>Sign out</button>
                                 </>
-                            ): (
+                            ) : (
                                 <>
                                     <button onClick={this.redirectToLogin}>Enter account</button>
                                 </>
@@ -111,7 +142,7 @@ class Dashboard extends Component<any, DashboardState> {
                         </div>
                     </div>
 
-                    {loading? (
+                    {loading ? (
                         <div>
                             Loading...
                         </div>

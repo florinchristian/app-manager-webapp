@@ -1,0 +1,19 @@
+.bug-item {
+  background-color: #e3e3e3;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.bug-item p {
+  margin: 0;
+  padding: 0;
+}
+.bug-item .bug-fix-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.bug-item .bug-fix-button-container button {
+  margin-top: 10px;
+}
+
+/*# sourceMappingURL=style.css.map */

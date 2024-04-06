@@ -8,10 +8,22 @@
 
   box-sizing: border-box;
 
+  position: relative;
+
   display: flex;
 
   justify-content: center;
   align-items: center;
+
+  #bugs-toggle-button-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+
+  #bugs-toggle-button {
+
+  }
 
   #dashboard-content {
     display: flex;
