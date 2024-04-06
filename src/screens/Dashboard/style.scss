@@ -1,0 +1,33 @@
+@import '../../../src/styles/base.scss';
+
+#dashboard-container {
+  background-color: $backgroundGray;
+
+  width: 100vw;
+  height: 100vh;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  #dashboard-content {
+    background-color: white;
+
+    padding: 25px;
+
+    width: 75%;
+    height: 100%;
+
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(gray, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(gray, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(gray, 0.75);
+
+    #dashboard-footer {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

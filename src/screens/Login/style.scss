@@ -1,0 +1,46 @@
+@import '../../../src/styles/base.scss';
+
+#login-container {
+  width: 100vw;
+  height: 100vh;
+
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #dcdcdc;
+
+  #form-container {
+    background-color: white;
+
+    padding: 10px;
+
+    border-radius: 15px;
+
+    width: 30%;
+
+    #form {
+      display: flex;
+
+      flex-direction: column;
+
+      width: 100%;
+
+      .input-container {
+        display: flex;
+
+        width: 100%;
+
+        flex-direction: column;
+
+        margin-bottom: 10px;
+      }
+
+      label {
+        font-family: Avenir, serif;
+      }
+    }
+  }
+}
